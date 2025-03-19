@@ -44,13 +44,14 @@ app.layout = html.Div([
     Input('bar-chart', 'id')
 )
 def update_graphs(_):
-    bar_fig = px.bar(df.groupby('Category')['Sales'].sum().reset_index(), x='Category', y='Sales', title='Total Sales by Category')
-    line_fig = px.line(df.groupby('Month')['Sales'].sum().reset_index(), x='Month', y='Sales', title='Monthly Sales Trend')
+    bar_fig = px.bar(df.groupby('Category', as_index=False)['Sales'].sum(), x='Category', y='Sales', title='Total Sales by Category')
+    line_fig = px.line(df.groupby('Month', as_index=False)['Sales'].sum(), x='Month', y='Sales', title='Monthly Sales Trend')
     scatter_fig = px.scatter(df, x='Sales', y='Profit', title='Sales vs Profit', trendline='ols')
-    pie_fig = px.pie(df.groupby('Month')['Sales'].sum().reset_index(), names='Month', values='Sales', title='Sales Distribution by Month')
+    pie_fig = px.pie(df.groupby('Month', as_index=False)['Sales'].sum(), names='Month', values='Sales', title='Sales Distribution by Month')
     return bar_fig, line_fig, scatter_fig, pie_fig
 
 # Run Server
 if __name__ == '__main__':
     app.run(debug=True)
+
     
